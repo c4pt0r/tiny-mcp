@@ -16,7 +16,8 @@ from pathlib import Path
 import click
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Prompt
+from prompt_toolkit import prompt
+from prompt_toolkit.styles import Style
 from rich.text import Text
 from rich.table import Table
 from rich.live import Live
@@ -45,7 +46,7 @@ THEME = Theme({
     "warning": "yellow",
     "error": "bold red",
     "success": "bold green",
-    "user": "bold blue",
+    "user": "bold white",
     "assistant": "bold green",
     "tool": "bold magenta",
     "system": "dim white",
@@ -249,7 +250,7 @@ Type your message to start chatting! The AI can automatically call tools when ne
     def format_message(self, role: str, content: str) -> Panel:
         """Format a message with appropriate styling"""
         if role == "user":
-            return Panel(content, title="[user]You[/user]", border_style="blue")
+            return Panel(content, title="[user]You[/user]", border_style="white")
         elif role == "assistant":
             return Panel(
                 Markdown(content, code_theme="rrt") if content.strip().startswith("#") or "\n" in content else content,
@@ -409,7 +410,10 @@ Available tools:
         while True:
             try:
                 # Get user input
-                user_input = Prompt.ask("\n[user]You[/user]", console=self.console)
+                user_input = prompt("\n[You]: ", style=Style.from_dict({
+                    'prompt': 'bold white',
+                    '': 'white'
+                }))
                 
                 if not user_input.strip():
                     continue
@@ -525,6 +529,10 @@ def main(config: Optional[str] = None):
         finally:
             await cli.cleanup()
     # Run the async main function
+    import nest_asyncio
+    nest_asyncio.apply()
+    
+    # Now we can safely use asyncio.run even if there's a running loop
     asyncio.run(run())
 
 if __name__ == "__main__":
