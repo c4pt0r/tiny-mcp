@@ -1,0 +1,23 @@
+[project]
+name = "tiny-mcp-cli"
+version = "0.1.0"
+description = "A tiny CLI REPL for MCP (Model Context Protocol)"
+authors = [
+    {name = "dongxu", email = "i@huangdx.net"},
+]
+dependencies = [
+    "mcp>=0.5.0",
+    "rich>=13.0.0",
+    "click>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.0.0",
+    "pydantic>=2.0.0",
+]
+requires-python = ">= 3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+tiny-mcp = "tiny_mcp_cli.main:main"
