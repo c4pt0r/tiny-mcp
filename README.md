@@ -2,6 +2,8 @@
 
 A tiny CLI REPL for MCP (Model Context Protocol)
 
+![](./screenshot.png)
+
 ## Usage
 
 ```bash
